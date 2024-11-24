@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Academic Portfolio</title>
+  <style>
+    :root {
+      --primary: #95b0aa;
+      --primary-dark: #7a948e;
+      --accent: #95b0aa;
+      --gradient: linear-gradient(135deg, #95b0aa 0%, #7a948e 100%);
+    }
+
+    body {
+      font-family:  "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 12px;
+      background-color: #f8fafb;
+      color: #2d3748;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+   
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      padding: 0.5rem 2rem;
+    }
+
+    .tab-list {
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tab {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 1.1rem;
+      color: #4a5568;
+      position: relative;
+      transition: all 0.3s ease;
+      text-decoration: none;
+       font-weight: normal;
+    }
+
+    .tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tab.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tab.active::after {
+      transform: scaleX(1);
+    }
+
+    .tab:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Adjust header to account for fixed nav */
+    header {
+      margin-top: 6rem;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      margin-bottom: 3rem;
+      padding: 3rem 0;
+      position: relative;
+      overflow: hidden;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+
+
+    /* Profile picture */
+    .profile-picture {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 2rem auto 2rem auto;
+      border-radius: 50%;
+      border: 4px solid var(--primary);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards 0.2s;
+    }
+
+    .profile-picture img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      gap: 3rem;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-section {
+      flex: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: contentFadeIn 1s forwards 0.8s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .name {
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+
+    .social-links a {
+      color: var(--primary);
+      padding: 0.75rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      background: #f7fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-2px);
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .bio-section {
+      flex: 2;
+      font-size: 12;
+      line-height: 1.8;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateX(20px);
+      animation: contentFadeIn 1s forwards 1s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes contentFadeIn {
+      to {
+        opacity: 1;
+        transform: translate(0);
+      }
+    }
+
+    .bio-section p {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .timeline-container {
+      max-width: 800px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .timeline-date {
+      width: 100px;
+      color: #666;
+      font-size: 1.1em;
+      padding-right: 10px;
+    }
+
+    .timeline-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .timeline-content .text {
+      color: #333;
+      font-size: 1.2em;
+    }
+
+    .timeline-content .emoji {
+      font-size: 1.2em;
+    }
+
+    /* Remove border from last item */
+    .timeline-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: var(--primary);
+      padding: 0.2em 0.4em;
+      background: linear-gradient(120deg, rgba(149, 176, 170, 0.1) 0%, rgba(149, 176, 170, 0.2) 100%);
+      border-radius: 0.3em;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .content.active {
+      display: block;
+      animation: contentFadeIn 0.5s forwards;
+    }
+
+        /* Section headings */
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    h3 {
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--primary-dark);
+    }
+
+
+    
+    .publication {
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .publication::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 4px 0 0 4px;
+    }
+
+    .publication:hover {
+      transform: translateY(-5px);
+    }
+
+    .publication h3 {
+      color: var(--primary-dark);
+      margin: 0 0 1rem 0;
+      font-size: 1.5rem;
+    }
+
+    .publication-meta {
+      color: #4a5568;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .project {
+      margin-bottom: 6rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .project-image {
+      width: 100%;
+      order: 1; 
+    }
+
+    .project-details {
+      order: 2; 
+    }
+
+    .project-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .project-image img:hover {
+      transform: translateY(-5px);
+    }
+
+    .project-details h3 {
+      font-size: 1.75rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+    }
+
+    .project-details p {
+      color: #4a5568;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .project-details .date {
+      font-size: 0.9rem;
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .project {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .project-image {
+        order: 1;
+      }
+      
+      .project-details {
+        order: 2;
+      }
+    }
+
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      background: rgba(149, 176, 170, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .github-link:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .github-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+
+    .pdf-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      background: rgba(149, 176, 170, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .pdf-link:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem;
+      background: var(--primary-dark);
+      color: white;
+      margin-top: 4rem;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: contentFadeIn 1s forwards 1.4s;
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="nav-container">
+      <ul class="tab-list">
+        <li><button class="tab active" data-tab="home">Bio</button></li>
+        <li><button class="tab" data-tab="research">Research Projects</button></li>
+        <li><button class="tab" data-tab="projects">Acitivities</button></li>
+        <li><button class="tab" data-tab="cv">Resume</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header>
+    <div class="header-content">
+      <div class="profile-section">
+        <div class="profile-picture">
+          <img src="resources/IMG_0654-EDIT.jpg" alt="Your Profile Picture">
+        </div>
+        <div class="name">Nafisa Mehjabin</div>
+        <div class="social-links">
+
+          <a href="https://www.linkedin.com/in/nafisa-mehjabin/" aria-label="LinkedIn"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+          <a href="nmehjabin16@gmail.com" aria-label="Email"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+          <a href="https://github.com/mehjabin16" aria-label="GitHub"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+        </div>
+      </div>
+      <div class="bio-section">
+        <p>👩‍💻 <strong>About Me</strong><br>
+          I am a Computer Science graduate student at George Mason University. My research interest lies in designing AI-powered systems that incorporate societal values such as empathy, fairness, and sincerity into human-AI interactions. 🌍🤖  
+          Beore Joining GMU, I worked as a Data Analyst at a telecom company, where I enhanced operations and boosted customer retention using data analytics and visualization. My interdisciplinary background in process automation, data visualization, and full-stack development drives my passion for leveraging analytics and machine learning to deliver innovative solutions. 🚀  
+        </p>
+        <p>👩‍💻 <strong>Highlights</strong><br>
+        
+          <div class="timeline-item">
+            <div class="timeline-date">Nov 2024</div>
+            <div class="timeline-content">
+              <span class="emoji">🏆</span>
+              <span class="text">3rd place in DataStorm organized by the GMU Schar School of Policy and Government.</span>
+            </div>
+          </div>
+       
+
+          <div class="timeline-item">
+            <div class="timeline-date">Jun 2024</div>
+            <div class="timeline-content">
+              <span class="emoji">🖥️</span>
+              <span class="text">I joined CVPA Tech Department as a Tech Assistant.</span>
+            </div>
+          </div>
+           
+          <div class="timeline-container">
+            <div class="timeline-item">
+              <div class="timeline-date">Apr 2024</div>
+              <div class="timeline-content">
+                <span class="emoji">🏆</span>
+                <span class="text">2nd place in the Misinformation and Disinformation Ideathon by R Street Institute.</span>
+              </div>
+            </div>
+       
+
+          <div class="timeline-item">
+            <div class="timeline-date">Jan 2024</div>
+            <div class="timeline-content">
+              <span class="emoji">🌐</span>
+              <span class="text">Started working at GMU Global Education Office.</span>
+            </div>
+          </div>
+          
+         
+        </p>
+        <p>📫 <strong>Let’s Connect</strong><br>
+          Feel free to reach out at <a href="mailto:nmehjabi@gmu.edu">nmehjabi@gmu.edu</a>—I’d love to chat! 😊  
+        </p>
+      </div>  
+  </header>
+
+
+  <main>
+    <section id="research" class="content active">
+      <h2>Research Projects</h2>
+      <div class="project">
+        <div class="project-image">
+          <img src="resources/route.png" alt="Path-Planning Using LLMs">
+        </div>
+        <div class="project-details">
+          <h3>Can LLMs plan paths in the real world?</h3>
+          <p>Investigating the performance of state-of-art LLMs including GPT-4, Gemini, and Mistral in generating navigation instructions for real-world and pedestrian scenarios, highlighting their reliability as path planners.</p>
+          <p class="date">Current Project</p>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-image">
+          <img src="resources/wheat2.png" alt="Wheat Disease Classification">
+        </div>
+        <div class="project-details">
+          <h3>Wheat Disease Classification</h3>
+          <p>Developed a predictive model to identify wheat diseases from plant images across diverse breed and regions, leveraging deep learning architectures like ResNet50 and Vision Transformers. Integrated Grad-CAM to enhance model interpretability feature interpretation.</p>
+
+          <p class="date">Nov 2024</p>
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-image">
+          <img src="resources/poster1.jpeg" alt="Economic Impact of AI-Induced Hallucinations">
+        </div>
+        <div class="project-details">
+          <h3>Economic Impact of AI-Induced Hallucinations</h3>
+          <p>Analyzed risks of AI-generated synthetic media in marketing and customer engagement, exploring economic, legal, and trust implications. Created case studies and synthetic media examples using GPT and DALL-E.</p>
+          <p class="date">May 2024</p>
+        </div>
+      </div>
+      
+
+     <!-- <div class="publication">
+        <h3>Your Publication Title</h3>
+        <div class="publication-meta">
+          <span>Authors Names</span>
+          <a href="#" class="pdf-link">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            View PDF
+          </a>
+        </div>
+        <p>Conference or Journal Name, Year</p>
+      </div>-->
+
+    </section>
+
+    <section id="projects" class="content">
+      <h2>Activities</h2>
+
+      <div class="project">
+        <div class="project-image">
+          <img src="resources/image1.webp" alt="Justice System Datathon">
+        </div>
+        <div class="project-details">
+          <h3>DataStorm: Riding the Wave of Legislative Change</h3>
+          <p>Contributed to modernizing justice funding project by scraping legislative data from 17 states and developing scripts for automating and tracking legislative data to improve data transparency and analysis.</p>
+          <p class="date">Nov 2024</p>
+          <a href="#" class="github-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+            GitHub Repository
+          </a>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-image">
+          <img src="resources/id.jpeg" alt="Ideathon: Misinformation and Disinformation">
+        </div>
+        <div class="project-details">
+          <h3>Ideathon: Misinformation and Disinformation</h3>
+          <p>Our business idea was inspired by leveraging the concept of nutrition labels on food products to rate online content on ideological orientation, polarity, emotional intensity, and bias, promoting transparency without censorship.</p>
+          <p class="date">Apr 2024</p>
+          
+        </div>
+      </div>
+      
+  
+    </section>
+  
+
+    <section id="cv" class="content">
+      <h2>Curriculum Vitae</h2>
+      <iframe src="https://docs.google.com/document/d/1YZZ5cBZ_NBZ4WVhKUK9QO3PbBYJCujgi/edit?usp=sharing&ouid=114779795855423460162&rtpof=true&sd=true" width="100%" height="600"></iframe>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2024 Nafisa Mehjabin. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.top-nav .tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+      
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      
+        const tabId = tab.dataset.tab;
+        
+        // Special handling for home tab
+        if (tabId === 'home') {
+          // Scroll to top of page
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+          return;
+        }
+        
+        // Handle other tabs normally
+        const content = document.getElementById(tabId);
+        if (content) {
+          // Hide all content sections
+          document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+          
+          // Show selected content section
+          content.classList.add('active');
+          
+          // Scroll to content
+          const topNavHeight = document.querySelector('.top-nav').offsetHeight;
+          const scrollPosition = content.offsetTop - topNavHeight - 20;
+          
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    </script>
+
+</body>
+</html>
